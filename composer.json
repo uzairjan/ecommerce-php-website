@@ -1,0 +1,17 @@
+{
+    "name": "sahib/ecommerce",
+    "description": "dlsajf",
+    "type": "project",
+    "license": "MIT",
+    "authors": [{
+        "name": "uzairkhan",
+        "email": "muhammaduzair68&@gmail.com"
+    }],
+    "require": {},
+    "autoload": {
+        "psr-4": {
+            "Client\\": ["controllers/", "configuration/"],
+            "Admin\\": ["controllers/admin/", "configuration/"]
+        }
+    }
+}
