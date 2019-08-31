@@ -45,7 +45,7 @@
                                       <?php foreach ($adminObj->GetSales($databaseObj->connection) as $key => $value) {?>
                                         <tr>
                                             <td><?php echo $value['sales_date'] ?></td>
-                                            <td>Internet Explorer 4.</td>
+                                            <td><?php echo $value['firstname'], $value['lastname'] ?></td>
                                             <td> <?php echo $value['pay_id'] ?></td>
                                             <td>Win 95+</td>
                                             <td> <a class="btn btn-primary btn-flat"  href="#edit-product" data-toggle="modal"><i class="fa fa-fw fa-search-plus"></i><strong>View</strong></a>

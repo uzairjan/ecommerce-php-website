@@ -8,10 +8,8 @@
     </footer>
 </div>
 
-    <!-- ./wrapper -->
-    <!-- jQuery 3 -->
     <script src="bower_components/jquery/dist/jquery.min.js"></script>
-    <!-- jQuery UI 1.11.4 -->
+
     <script src="bower_components/jquery-ui/jquery-ui.min.js"></script>
     <!-- Bootstrap 3.3.7 -->
     <script src="bower_components/bootstrap/dist/js/bootstrap.min.js"></script>
@@ -30,7 +28,8 @@
     <script src="bower_components/morris.js/morris.min.js"></script>
     <!-- Sparkline -->
     <script src="bower_components/jquery-sparkline/dist/jquery.sparkline.min.js"></script>
-    
+    <!-- AdminLTE dashboard demo (This is only for demo purposes) -->
+    <script src="assets/js/pages/dashboard.js"></script>
     <!-- jQuery Knob Chart -->
     <script src="bower_components/jquery-knob/dist/jquery.knob.min.js"></script>
     <!-- daterangepicker -->
@@ -46,8 +45,7 @@
     <script src="bower_components/fastclick/lib/fastclick.js"></script>
     <!-- AdminLTE App -->
     <script src="assets/js/adminlte.min.js"></script>
-    <!-- AdminLTE dashboard demo (This is only for demo purposes) -->
-    <script src="assets/js/pages/dashboard.js"></script>
+    
     <!-- AdminLTE for demo purposes -->
     <script src="assets/js/demo.js"></script>
     <!-- text area -->
@@ -73,7 +71,7 @@
             })
         })
     </script>
-    <script>
+ <script>
   $(function () {
     // Replace the <textarea id="editor1"> with a CKEditor
     // instance, using default configuration.
@@ -81,3 +79,4 @@
     //bootstrap WYSIHTML5 - text editor
     $('.textarea').wysihtml5()
   })
+  </script>

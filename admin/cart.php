@@ -26,8 +26,8 @@
                         <!-- /.box -->
                          <div class="box">
                             <div class="box-header">
-                             <a class="btn btn-primary btn-flat pull-right"  href="#add-product" data-toggle="modal" ><i class="fa fa-fw fa-plus"></i><strong>Print</strong></a>
-                             <a class="btn btn-primary btn-flat pull-left"  href="#add-user" data-toggle="modal" ><i class="fa fa-fw fa-plus"></i><strong>New</strong></a>
+                             <a class="btn btn-primary btn-flat pull-right"  href="#print_product" data-toggle="modal" ><i class="fa fa-fw fa-plus"></i><strong>Print</strong></a>
+                             <a class="btn btn-primary btn-flat pull-left"  href="#add-product" data-toggle="modal" ><i class="fa fa-fw fa-plus"></i><strong>New</strong></a>&nbsp;
                              <a class="btn btn-primary btn-flat pull-center"  href="user.php"  ><i class="fa fa-fw fa-plus"></i><strong>Users</strong></a>
                             </div>
                             <!-- /.box-header -->
@@ -80,26 +80,27 @@
         <!-- /.content-wrapper -->
     
         <!-- add new product modal -->
-        <div class="modal fade" id="add-user">
-          <div class="modal-dialog modal-lg">
+        <div class="modal fade" id="add-product">
+          <div class="modal-dialog ">
             <div class="modal-content">
               <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                   <span aria-hidden="true">&times;</span></button>
-                <h4 class="modal-title">Add New User </h4>
+                <h4 class="modal-title">Add New Product </h4>
               </div>
               <div class="modal-body">
               <form class="form-horizontal" method="POST" action="products_add.php" enctype="multipart/form-data">
                 <div class="form-group">
-                  <label for="name" class="col-sm-1 control-label">Name</label>
+                  <label for="name" class="col-sm-3 control-label">Name</label>
 
-                  <div class="col-sm-5">
+                  <div class="col-sm-8">
                     <input type="text" class="form-control" id="name" name="name" required="">
-                  </div>
-
-                  <label for="category" class="col-sm-1 control-label">Category</label>
-
-                  <div class="col-sm-5">
+                 </div>
+                </div>
+                <div class="form-group">
+                  <label for="category" class="col-sm-3 control-label">Category</label>
+         
+                  <div class="col-sm-8">
                     <select class="form-control" id="category" name="category" required="">
                       <option value="" selected="">- Select -</option>
                     
@@ -111,26 +112,13 @@
                       </select>
                   </div>
                 </div>
-                <div class="form-group">
-                  <label for="price" class="col-sm-1 control-label">Price</label>
-
-                  <div class="col-sm-5">
-                    <input type="text" class="form-control" id="price" name="price" required="">
-                  </div>
-
-                  <label for="photo" class="col-sm-1 control-label">Photo</label>
-
-                  <div class="col-sm-5">
-                    <input type="file" id="photo" name="photo">
-                  </div>
-                </div>
-               
-            </form>
-              </div>
-              <div class="modal-footer">
+                <div class="modal-footer">
                 <button type="button" class="btn btn-default pull-left" data-dismiss="modal">Close</button>
-                <button type="button" class="btn btn-primary">Save changes</button>
+                <button type="submit" class="btn btn-primary" name="submit">Save changes</button>
               </div>
+              </form>
+              </div>
+              
             </div>
             <!-- /.modal-content -->
           </div>

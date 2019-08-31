@@ -17,6 +17,12 @@
                     <li><a href="#">Tables</a></li>
                     <li class="active">Data tables</li>
                 </ol>
+                <?php if(isset($_GET['msg'])){ ?>
+                  <div class="alert alert-success alert-dismissible" role="alert">
+                     <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                     <?php if(isset($_GET['msg'])) {echo $_GET['msg']; } ?>
+                  </div>
+                <?php } ?>
             </section>
 
             <!-- Main content -->
@@ -49,8 +55,9 @@
                                             <td> <a class="btn btn-primary btn-flat"  href="#view-product" data-toggle="modal"><i class="fa fa-fw fa-search"></i><strong>View</strong></a></td>
                                             <td><?php echo $value['price'] ?> </td>
                                             <td><?php echo $value['date_view'] ?></td>
-                                            <td> <a class="btn btn-primary btn-flat"  href="#edit-product" data-toggle="modal"><i class="fa fa-fw fa-edit"></i><strong>Edit</strong></a>
-                                                 <a class="btn btn-primary btn-flat"  href="#delete-product" data-toggle="modal" onclick="creatUrl(<?php echo $value['id'] ?>)"><i class="fa fa-fw fa-trash"></i><strong>Delete</strong></a>
+                                            <td> 
+                                              <a class="prod_edit btn btn-success btn-flat"  data-id="<?php echo $value['id'] ?>" data-toggle="modal"><i class="fa fa-fw fa-edit"></i><strong>Edit</strong></a>
+                                              <a class="btn btn-danger btn-flat"  href="#delete-product" data-toggle="modal" onclick="creatUrl(<?php echo $value['id'] ?>)"><i class="fa fa-fw fa-trash"></i><strong>Delete</strong></a>
                                          </td>
                                         </tr>
                                         <?php } ?>
@@ -129,107 +136,97 @@
                   <div class="col-sm-12">
                     <!-- changes -->
                     <form>
-                    <textarea class="textarea" placeholder="Place some text here"
-                          style="width: 100%; height: 200px; font-size: 14px; line-height: 18px; border: 1px solid #dddddd; padding: 10px;"></textarea>
-                    </form>
+                     <textarea id="editor" name="editor" rows="10" cols="80">
+                                            
+                    </textarea>
+               </form>
                     <!-- /changes -->
                   </div>
                   
                 </div>
-            </form>
-              </div>
-              <div class="modal-footer">
+                <div class="modal-footer">
                 <button type="button" class="btn btn-default pull-left" data-dismiss="modal">Close</button>
                 <button type="button" class="btn btn-primary">Save changes</button>
               </div>
+            </form>
+              </div>
+             
             </div>
             <!-- /.modal-content -->
           </div>
           <!-- /.modal-dialog -->
         </div>
         <!-- Edit Product Modal -->
-        <div class="modal fade" id="edit-product">
+        <div class="modal fade" id="edit_product">
           <div class="modal-dialog modal-lg">
             <div class="modal-content">
               <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                   <span aria-hidden="true">&times;</span></button>
-                <h4 class="modal-title">Add New Product </h4>
+                <h4 class="modal-title">Update Product </h4>
               </div>
               <div class="modal-body">
-              <form class="form-horizontal" method="POST" action="products_add.php" enctype="multipart/form-data">
-                <div class="form-group">
+              <form class="form-horizontal" method="POST" action="ajax_requests.php" enctype="multipart/form-data">
+                <input type="hidden" class="update_pro" name="product_id" > 
+                <div class="form-group">  
                   <label for="name" class="col-sm-1 control-label">Name</label>
 
                   <div class="col-sm-5">
-                    <input type="text" class="form-control" id="name" name="name" required="">
+                    <input type="text" class="form-control" id="prod_name" name="pro_name" required="">
                   </div>
 
                   <label for="category" class="col-sm-1 control-label">Category</label>
 
-                  <div class="col-sm-5">
-                    <select class="form-control" id="category" name="category" required="">
-                      <option value="" selected="">- Select -</option>
-                    
-                        <option value="1" class="append_items">Laptops</option>
-                      
-                        <option value="3" class="append_items">Tablets</option>
-                      
-                        <option value="4" class="append_items">Smart Phones</option>
-                      </select>
-                  </div>
+                   <div class="col-sm-5">
+                   <input type="text" class="form-control" id="prod_categ" name="prod_cat" required="">
+                   </div>
                 </div>
                 <div class="form-group">
                   <label for="price" class="col-sm-1 control-label">Price</label>
 
                   <div class="col-sm-5">
-                    <input type="text" class="form-control" id="price" name="price" required="">
-                  </div>
-
-                  <label for="photo" class="col-sm-1 control-label">Photo</label>
-
-                  <div class="col-sm-5">
-                    <input type="file" id="photo" name="photo">
+                    <input type="text" class="form-control" id="prod_price" name="pro_price" required="">
                   </div>
                 </div>
                 <p><b>Description</b></p>
                 <div class="form-group">
-                  <div class="col-sm-12">
-                    <!-- changes -->
-                    <form>
-                    <textarea class="textarea" placeholder="Place some text here"
-                          style="width: 100%; height: 200px; font-size: 14px; line-height: 18px; border: 1px solid #dddddd; padding: 10px;"></textarea>
-                    </form>
-                    <!-- /changes -->
-                  </div>
+                  <!-- changes -->
+                   
+                  <textarea id="editor1" name="editor1" rows="10" cols="80">
+                                         
+                  </textarea>
+                 
+                 <!-- /changes -->
                   
                 </div>
+                <div class="modal-footer">
+                <button type="button" class="btn btn-default pull-left" data-dismiss="modal">Close</button>
+                <button type="submit" class="btn btn-success" name="edit_pro">Save changes</button>
+              </div>
             </form>
               </div>
-              <div class="modal-footer">
-                <button type="button" class="btn btn-default pull-left" data-dismiss="modal">Close</button>
-                <button type="button" class="btn btn-primary">Save changes</button>
-              </div>
+              
             </div>
             <!-- /.modal-content -->
           </div>
           <!-- /.modal-dialog -->
         </div>
+
         <!-- Delete Product modal -->
         <div class="modal fade" id="delete-product">
           <div class="modal-dialog">
             <div class="modal-content">
-              <div class="modal-header">
+              <div class="modal-header" style="background:maroon;color:#fff">
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                   <span aria-hidden="true">&times;</span></button>
-                <h4 class="modal-title">Delete Product</h4>
+               <center> <h4 class="modal-title">Delete Product</h4></center>
               </div>
               <div class="modal-body">
-                <p>One fine body&hellip;</p>
+                <p><h3>Are you sure ?&hellip;</h3></p>
               </div>
               <div class="modal-footer">
                 <button type="button" class="btn btn-default pull-left" data-dismiss="modal">Close</button>
-                <a href=""  id="delete_product" class="btn btn-danger">Delete Category</a>
+                <a href=""  id="delete_product" class="btn btn-danger">Delete Product</a>
               </div>
             </div>
             <!-- /.modal-content -->
@@ -240,7 +237,7 @@
         <div class="modal fade" id="view-product">
           <div class="modal-dialog">
             <div class="modal-content">
-              <div class="modal-header">
+              <div class="modal-header ">
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                   <span aria-hidden="true">&times;</span></button>
                 <h4 class="modal-title">Product Detail</h4>
@@ -257,9 +254,71 @@
           </div>
           <!-- /.modal-dialog -->
         </div>
+        <?php require('includes/footer.php'); ?>
         <script >
         function creatUrl(x){
         $("#delete_product").attr('href','ajax_requests.php?Prod_id='+x);
            }
         </script>
-     <?php require('includes/footer.php'); ?>
+    
+     <script>
+  $(function(){
+
+   $(document).on('click', '.prod_edit', function(e){
+    e.preventDefault();
+    $('#edit_product').modal('show');
+    var id = $(this).data('id');
+    getRow(id);
+  });
+
+  // $(document).on('click', '.delete', function(e){
+  //   e.preventDefault();
+  //   $('#delete').modal('show');
+  //   var id = $(this).data('id');
+  //   getRow(id);
+  // });
+
+  // $(document).on('click', '.photo', function(e){
+  //   e.preventDefault();
+  //   var id = $(this).data('id');
+  //   getRow(id);
+  // });
+
+  // $(document).on('click', '.status', function(e){
+  //   e.preventDefault();
+  //   var id = $(this).data('id');
+  //   getRow(id);
+  // });
+
+});
+function getRow(id){
+  $.ajax({
+    type: 'POST',
+    url: 'ajax_requests.php',
+    data: {update_pro:id},
+    dataType: 'json',
+    success: function(user){
+    console.log("user_ID",user);   
+      $('.update_pro').val(user.id);
+      $('#prod_name').val(user.name);
+      $('#prod_price').val(user.price);
+      // $('#editor1').val(user.description);
+      var string = user.description;
+      console.log(string);
+      CKEDITOR.instances["editor1"].setData(string);
+      // $('.fullname').html(user.firstname+' '+user.lastname);
+    },
+    error: function(error){
+      console.log("error: ",error);
+    }
+  });
+  // $(function () {
+  //   // Replace the <textarea id="editor1"> with a CKEditor
+  //   // instance, using default configuration.
+  //   CKEDITOR.replace('editor1')
+   
+  //   //bootstrap WYSIHTML5 - text editor
+  //   $('.textarea').wysihtml5()
+  // // })
+}
+</script>     
