@@ -1,4 +1,11 @@
-<?php require_once("../configuration/config.php"); ?>
+
+<?php
+include('session.php');
+require_once("../configuration/config.php"); 
+
+
+
+?>
 <!DOCTYPE html>
 <html>
 
@@ -286,8 +293,10 @@
                                 <li class="user-header">
                                     <img src="assets/img/user2-160x160.jpg" class="img-circle" alt="User Image">
 
-                                    <p>
-                                        Alexander Pierce - Web Developer
+                                    <p> 
+                                    <?php  if (isset($_SESSION['username'])) : ?>
+                                      <p>Welcome <strong><?php echo $_SESSION['username']; ?></strong></p>
+                                      <?php endif ?>
                                         <small>Member since Nov. 2012</small>
                                     </p>
                                 </li>
@@ -309,11 +318,16 @@
                                 <!-- Menu Footer-->
                                 <li class="user-footer">
                                     <div class="pull-left">
-                                        <a href="#" class="btn btn-default btn-flat">Profile</a>
+                                        <!-- <a href="#" class="btn btn-default btn-flat">Profile</a> -->
+                                      
+                                       
                                     </div>
                                     <div class="pull-right">
-                                        <a href="#" class="btn btn-default btn-flat">Sign out</a>
-                                    </div>
+                                      
+                                        <a  href="../log_out.php" class="btn btn-default btn-flat">Sign out</a>
+    
+                                 <!-- <a  href="../new_login.php" class="btn btn-default btn-flat">Sign out</a> -->
+                                                                       </div>
                                 </li>
                             </ul>
                         </li>

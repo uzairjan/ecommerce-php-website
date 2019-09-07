@@ -52,7 +52,7 @@
                                         <tr>
                                             <td><?php echo $value['name'] ?></td>
                                             <td><?php echo $value['photo'] ?></td>
-                                            <td> <a class="btn btn-primary btn-flat"  href="#view-product" data-toggle="modal"><i class="fa fa-fw fa-search"></i><strong>View</strong></a></td>
+                                            <td> <a class="view_prod btn btn-primary btn-flat"  data-id="<?php echo $value['id'] ?>" data-toggle="modal"><i class="fa fa-fw fa-search"></i><strong>View</strong></a></td>
                                             <td><?php echo $value['price'] ?> </td>
                                             <td><?php echo $value['date_view'] ?></td>
                                             <td> 
@@ -96,33 +96,27 @@
                 <h4 class="modal-title">Add New Product </h4>
               </div>
               <div class="modal-body">
-              <form class="form-horizontal" method="POST" action="products_add.php" enctype="multipart/form-data">
+              <form class="form-horizontal" method="POST" action="ajax_requests.php" enctype="multipart/form-data">
                 <div class="form-group">
                   <label for="name" class="col-sm-1 control-label">Name</label>
 
                   <div class="col-sm-5">
-                    <input type="text" class="form-control" id="name" name="name" required="">
+                    <input type="text" class="form-control" id="name" name="name" required>
                   </div>
 
                   <label for="category" class="col-sm-1 control-label">Category</label>
 
                   <div class="col-sm-5">
-                    <select class="form-control" id="category" name="category" required="">
-                      <option value="" selected="">- Select -</option>
-                    
-                        <option value="1" class="append_items">Laptops</option>
-                      
-                        <option value="3" class="append_items">Tablets</option>
-                      
-                        <option value="4" class="append_items">Smart Phones</option>
-                      </select>
+                    <select class="form-control" id="category" name="category" >
+                      <option value="" selected>- Select -</option>
+                    </select>
                   </div>
                 </div>
                 <div class="form-group">
                   <label for="price" class="col-sm-1 control-label">Price</label>
 
                   <div class="col-sm-5">
-                    <input type="text" class="form-control" id="price" name="price" required="">
+                    <input type="text" class="form-control" id="price" name="price" required>
                   </div>
 
                   <label for="photo" class="col-sm-1 control-label">Photo</label>
@@ -134,21 +128,15 @@
                 <p><b>Description</b></p>
                 <div class="form-group">
                   <div class="col-sm-12">
-                    <!-- changes -->
-                    <form>
-                     <textarea id="editor" name="editor" rows="10" cols="80">
-                                            
-                    </textarea>
-               </form>
-                    <!-- /changes -->
+                    <textarea id="editor2" name="description" rows="10" cols="80" required></textarea>
                   </div>
                   
                 </div>
-                <div class="modal-footer">
-                <button type="button" class="btn btn-default pull-left" data-dismiss="modal">Close</button>
-                <button type="button" class="btn btn-primary">Save changes</button>
-              </div>
-            </form>
+            </div>
+            <div class="modal-footer">
+              <button type="button" class="btn btn-default btn-flat pull-left" data-dismiss="modal"><i class="fa fa-close"></i> Close</button>
+              <button type="submit" class="btn btn-primary btn-flat" name="add_product"><i class="fa fa-save"></i> Save</button>
+              </form>
               </div>
              
             </div>
@@ -176,7 +164,7 @@
                   </div>
 
                   <label for="category" class="col-sm-1 control-label">Category</label>
-
+                  
                    <div class="col-sm-5">
                    <input type="text" class="form-control" id="prod_categ" name="prod_cat" required="">
                    </div>
@@ -234,20 +222,40 @@
           <!-- /.modal-dialog -->
         </div>
         <!-- view product modal -->
+  <div class="modal fade" id="viewProduts">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                  <span aria-hidden="true">&times;</span></button>
+              <h4 class="modal-title"><b><span class="name"></span></b></h4>
+            </div>
+            <div class="modal-body">
+                <p id="desc"></p>
+            </div>
+            <div class="modal-footer">
+              <button type="button" class="btn btn-default btn-flat pull-left" data-dismiss="modal"><i class="fa fa-close"></i> Close</button>
+            </div>
+        </div>
+    </div>
+</div>
         <div class="modal fade" id="view-product">
           <div class="modal-dialog">
             <div class="modal-content">
               <div class="modal-header ">
+                <span class="name" id="name"> </span> 
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                   <span aria-hidden="true">&times;</span></button>
                 <h4 class="modal-title">Product Detail</h4>
               </div>
               <div class="modal-body">
-                <p>One fine body&hellip;</p>
+              <input type="hidden" class="pro_descr" name="view_description" > 
+                <p id="description">
+                </p>
               </div>
               <div class="modal-footer">
                 <button type="button" class="btn btn-default pull-left" data-dismiss="modal">Close</button>
-                <button type="button" class="btn btn-primary">Save changes</button>
+                
               </div>
             </div>
             <!-- /.modal-content -->
@@ -261,8 +269,49 @@
            }
         </script>
     
-     <script>
-  $(function(){
+    <script> 
+     $(function(){
+
+$(document).on('click', '.view_prod', function(e){
+ e.preventDefault();
+ $('#viewProduts').modal('show');
+ var id = $(this).data('id');
+ getRow(id);
+});
+
+// $(document).on('click', '.photo', function(e){
+//   e.preventDefault();
+//   var id = $(this).data('id');
+//   getRow(id);
+// });
+
+// $(document).on('click', '.status', function(e){
+//   e.preventDefault();
+//   var id = $(this).data('id');
+//   getRow(id);
+// });
+
+});
+function getRow(id){
+$.ajax({
+ type: 'POST',
+ url: 'ajax_requests.php',
+ data: {pro_descr:id},
+ dataType: 'json',
+ success: function(product){
+ console.log("pro_descr",product);   
+   $('.pro_descr').val(product.id);
+   $('#name').val(user.name);
+   $('#description').html(product.description);
+ },
+ error: function(error){
+   console.log("error: ",error);
+ }
+});
+}
+</script>
+ <script>
+    $(function(){
 
    $(document).on('click', '.prod_edit', function(e){
     e.preventDefault();
@@ -270,13 +319,6 @@
     var id = $(this).data('id');
     getRow(id);
   });
-
-  // $(document).on('click', '.delete', function(e){
-  //   e.preventDefault();
-  //   $('#delete').modal('show');
-  //   var id = $(this).data('id');
-  //   getRow(id);
-  // });
 
   // $(document).on('click', '.photo', function(e){
   //   e.preventDefault();
@@ -290,8 +332,8 @@
   //   getRow(id);
   // });
 
-});
-function getRow(id){
+   });
+  function getRow(id){
   $.ajax({
     type: 'POST',
     url: 'ajax_requests.php',
@@ -312,13 +354,9 @@ function getRow(id){
       console.log("error: ",error);
     }
   });
-  // $(function () {
-  //   // Replace the <textarea id="editor1"> with a CKEditor
-  //   // instance, using default configuration.
-  //   CKEDITOR.replace('editor1')
-   
-  //   //bootstrap WYSIHTML5 - text editor
-  //   $('.textarea').wysihtml5()
-  // // })
+
 }
-</script>     
+</script>
+
+ 
+ 

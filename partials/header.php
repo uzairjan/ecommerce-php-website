@@ -105,10 +105,13 @@ links for category.php -->
 				<!-- Cart -->
 				<div class="cart"><a href="cart.php"><div><img class="svg" src="assets/client/images/cart.svg" alt="https://www.flaticon.com/authors/freepik"></div></a></div>
 				<!-- Phone -->
-				<div class="header_phone d-flex flex-row align-items-center justify-content-start">
+				<div><a href="new_login.php">LOGIN &nbsp; &nbsp;</a></div>
+				<div> <a href="new_signup.php"> SIGN UP</a></div>
+				<!-- <div class="header_phone d-flex flex-row align-items-center justify-content-start">
 					<div><div><img src="assets/client/images/phone.svg" alt="https://www.flaticon.com/authors/freepik"></div></div>
-					<div>+1 912-252-7350</div>
-				</div>
+					
+					
+				</div> -->
 			</div>
 		</div>
 	</header>

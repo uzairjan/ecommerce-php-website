@@ -1,6 +1,7 @@
-<?php require('includes/header.php'); ?>
+
+<?php require 'includes/header.php';?>
         <!-- Left side column. contains the logo and sidebar -->
-     <?php require('includes/sidebar.php'); ?>
+     <?php require 'includes/sidebar.php';?>
     <!-- Content Wrapper. Contains page content -->
     <div class="content-wrapper">
         <!-- Content Header (Page header) -->
@@ -8,6 +9,8 @@
             <h1>
                 Dashboard
                 <small>Control panel</small>
+                <p>
+                                    </p>
             </h1>
             <ol class="breadcrumb">
                 <li><a href="#"><i class="fa fa-dashboard"></i> Home</a></li>
@@ -506,4 +509,4 @@
     </div>
     <!-- /.content-wrapper -->
 
-    <?php require('includes/footer.php'); ?>
+    <?php require 'includes/footer.php';?>

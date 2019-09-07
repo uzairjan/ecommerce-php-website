@@ -11,6 +11,7 @@ class DatabaseController
     public $connection;
 
     function __construct(){
+        
         $this->connection = mysqli_connect($this->host,$this->user,$this->password,$this->database);
         if(!$this->connection){
             die("unable to connect");
