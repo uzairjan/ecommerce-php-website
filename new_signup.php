@@ -14,9 +14,12 @@
   </div>
 	
   <form method="post" action="admin/ajax_requests.php">
-	<?php include('partials/errors.php'); 
-				$errors =array();
-				unset($_SESSION['errors']);?>
+  <?php $errors = array();
+			 if(isset($_SESSION['errors'])){
+				
+				include 'partials/errors.php';
+			 }
+			 ?>
   	<div class="input-group">
   	  <label>Username</label>
   	  <input type="text" name="username" value="">

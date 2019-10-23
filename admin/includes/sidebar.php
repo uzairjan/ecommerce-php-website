@@ -8,7 +8,11 @@
                 <img src="assets/img/user2-160x160.jpg" class="img-circle" alt="User Image">
             </div>
             <div class="pull-left info">
-                <p>Alexander Pierce</p>
+            <?php  if(isset($_SESSION['username'])) : 
+                 ?>
+                <p><?php echo $_SESSION['username'];
+                // unset($_SESSION['username']); ?></p>
+                   <?php endif  ?>
                 <a href="#"><i class="fa fa-circle text-success"></i> Online</a>
             </div>
         </div>

@@ -59,6 +59,7 @@ class AdminController extends Database
             $query = "INSERT INTO users (firstname, email, password)
               VALUES('$username', '$email', '$password')";
             mysqli_query($connection, $query);
+            
             $_SESSION['username'] = $username;
             $_SESSION['success'] = "You are now logged in";
             header('location: ../new_login.php');
@@ -89,6 +90,7 @@ class AdminController extends Database
             $query = "SELECT * FROM users WHERE firstname='$username' AND password='$password'";
             $results = mysqli_query($connection, $query);
             if (mysqli_num_rows($results) == 1) {
+                $_SESSION['id'] = $user_id;
                 $_SESSION['username'] = $username;
                 $_SESSION['success'] = "You are now logged in";
 
@@ -109,6 +111,8 @@ class AdminController extends Database
         $cat_name = $_POST['name'];
         $query = "INSERT INTO category (name) VALUES('$cat_name')";
         $result = mysqli_query($connection, $query);
+        session_start();
+        $_SESSION['success_addcategory'] ="<b> Category is successfully added</b>";
         if (mysqli_error($connection)) {
             die(mysqli_error($connection));
         }
@@ -128,7 +132,7 @@ class AdminController extends Database
         }
         return $AllCategories;
     }
-
+     // get all product all data and put it to some update product modal
     public function GetProducts($connection)
     {
         $query = "SELECT * FROM products";
@@ -140,7 +144,20 @@ class AdminController extends Database
         }
         return $AllProducts;
 
+    }  
+    // will get user data on provided id and append it on updateprofile modal
+    public function getuserProfile($id,$connection){
+        $query = "SELECT * FROM users where id ='" . $id . "' ";
+        // mysqli query
+        $result = mysqli_query($connection, $query);
+        //return user;
+        $UserProfile = mysqli_fetch_assoc($result);
+        return $UserProfile;
     }
+     public function updateuserProfile(){
+
+     }
+    // get all user modal for and push it to update user modal
     public function GetUsers($connection)
     {
         $query = "SELECT * FROM users";
@@ -183,6 +200,8 @@ class AdminController extends Database
         WHERE id='$id' ";
         // $result = mysqli_query($connection,)
         $result = mysqli_query($connection, $query);
+        session_start();
+        $_SESSION['success_updatecategory'] ="<b> Category is successfully Updated</b>";
         if ($result) {
             return true;
         } else {
@@ -195,8 +214,11 @@ class AdminController extends Database
     {
         $query = "DELETE FROM category where id = '" . $id . "' ";
         $result = mysqli_query($connection, $query);
-        if ($result) {
+        session_start();
+        $_SESSION['success_deletecategory'] ="<b> Category is successfully deleted</b>";
+           if($result){
             return true;
+        
         } else {
             return false;
         }
@@ -208,29 +230,33 @@ class AdminController extends Database
     {
         $product_name = $_POST['name'];
         $product_price = $_POST['price'];
-        $filename = $_FILES["photo"]["name"];
-        $imagetmp = addslashes(file_get_contents($_FILES['photo']['tmp_name']));
-        // $product_description= $_POST['editor2'];
-        // File upload path
-        // $targetDir = "assets/img/";
-        // $fileName = basename($_FILES["photo"]["name"]);
-        // $targetFilePath = $targetDir . $fileName;
-        // $fileType = pathinfo($targetFilePath,PATHINFO_EXTENSION);
-        // $allowTypes = array('jpg','png','jpeg','gif','pdf');
-        // if(in_array($fileType, $allowTypes)){
-        //     if(move_uploaded_file($_FILES["photo"]["tmp_name"], $targetFilePath)){
+        $product_description = $_POST['description'];
+        $fileName =  $_FILES['add_photo']['name'];
+        $target = "assets/img/";          
+        $fileTarget = $target.$fileName;     
+        $tempFileName = $_FILES["add_photo"]["tmp_name"];
+            
+        $result = move_uploaded_file($tempFileName,$fileTarget);  
 
-        $query = "INSERT INTO products (name, price,photo) VALUES('$product_name', '$product_price','$filename')";
+        if ($result) {
+        $query = "INSERT INTO products (name, price,photo, description) VALUES('$product_name', '$product_price','$fileName','$product_description')";
         $result = mysqli_query($connection, $query);
+        session_start();
+        $_SESSION ['success_addproduct'] = "<b> Product is Successfully Added!</b>";
         if (mysqli_error($connection)) {
             die(mysqli_error($connection));
         } else if ($result) {
             return true;
         } else {
             return false;
-            //     }
-            // }
+            
         }
+    } else{
+        session_start();
+        $_SESSION['proimage_error']= "<b style='color:white;'> there is problem </b>";
+    }
+
+    
     }
     // update product function
     public function updateProduct($id, $connection)
@@ -241,6 +267,8 @@ class AdminController extends Database
         $description = $_POST['editor1'];
         $query = "UPDATE products SET name='$name', price='$price', description='$description' WHERE id='$id' ";
         $result = mysqli_query($connection, $query);
+        session_start();
+        $_SESSION ['success_updateproduct'] = "<b> Product is Successfully Updated!</b>";
         if (mysqli_error($connection)) {
             die(mysqli_error($connection));
         }
@@ -260,8 +288,54 @@ class AdminController extends Database
         return $product;
     }
 
-    //  // fetch decription product
-    public function getproductDesc($id, $connection)
+     // fetch product for product image modal
+     public function getproductImage($id,$connection)
+     {   
+        $query = "SELECT * FROM products where id=' " . $id ."' " ;
+        $result = mysqli_query($connection, $query);
+        $productImage = mysqli_fetch_assoc($result);
+        if(mysqli_error($connection)){
+            die(mysqli_error($connection));
+        }
+        else{
+          return $productImage; 
+        }
+     }
+     // update product image
+     public function updateProductImage($id,$connection)
+        {
+       
+        $fileName =  $_FILES['photo']['name'];
+
+            $target = "assets/img/";          
+            $fileTarget = $target.$fileName;     
+            $tempFileName = $_FILES["photo"]["tmp_name"];
+
+            $result = move_uploaded_file($tempFileName, $fileTarget);
+            if($result){
+              $query = "UPDATE products SET photo= '$fileName'   where id='$id' ";
+              $response =mysqli_query($connection, $query);
+              session_start();
+              $_SESSION['success_updateimage'] ="<b style='color:white;'> product Image is successfully updated!</b>";
+              if(mysqli_error($connection)){
+                  die(mysqli_error($connection));
+              }
+              if($response){
+                  return true;
+              }else {
+                  return false;
+               }
+
+            }
+            else{
+                session_start();
+                $_SESSION['error_updateimage'] ="<b style='color:white;'> Some problem occur while Updating product image!</b>";
+            }
+    
+
+     }
+      // fetch decription product
+    public function  getproductDesc($id, $connection)
     {
         $query = "SELECT * FROM products where id='" . $id . "'";
         $result = mysqli_query($connection, $query);
@@ -271,13 +345,17 @@ class AdminController extends Database
         } else {
             return $product;
         }
-    }
+    } 
+    
 
     // for deleting product function
     public function DeleteProduct($id, $connection)
     {
         $query = "DELETE FROM products where id = '" . $id . "' ";
         $result = mysqli_query($connection, $query);
+        session_start();
+        $_SESSION['success_deleteproduct']= "<b> Product is sucessfully deleted! </b>";
+        
         if ($result) {
             return true;
         } else {
@@ -290,6 +368,8 @@ class AdminController extends Database
     {
         $query = "DELETE FROM users where id= '" . $id . "' ";
         $result = mysqli_query($connection, $query);
+        session_start();
+        $_SESSION['success_deleteuser']= "<b style='color:white;'> User is successfully deleted ! </b>";
         if ($result) {
             return true;
         } else {
@@ -306,19 +386,34 @@ class AdminController extends Database
         $password = $_POST['password'];
         $address = $_POST['address'];
         $contact = $_POST['contact'];
-        $query = " INSERT INTO users (email, firstname,lastname,address, contact_info, password) VALUES('$email', '$firstname', '$lastname', '$address', '$contact','$password' ) ";
+        $fileName =$_FILES['add_photo']['name'];
+        $target = "../assets/client/images/";          
+        $fileTarget = $target.$fileName;     
+        $tempFileName = $_FILES["add_photo"]["tmp_name"];
+            
+        $result = move_uploaded_file($tempFileName,$fileTarget);
+        if($result){
+            $query = " INSERT INTO users (email, firstname,lastname, address , contact_info, password ,photo) VALUES('$email', '$firstname', '$lastname', '$address', '$contact','$password', '$fileName') ";
 
-        $result = mysqli_query($connection, $query);
-        if (mysqli_error($connection)) {
-            die(mysqli_error($connection));
-        }
-        if ($result) {
-            return true;
-        } else {
-            return false;
-        }
+                $result = mysqli_query($connection, $query);
+                session_start();
+                $_SESSION['success_adduser'] ="<b> User is successfully added !</b>";
+                if(mysqli_error($connection)) {
+                    die(mysqli_error($connection));
+                }
 
-    }
+                if ($result) {
+                    return true;
+                } else {
+                    return false;
+                }
+    
+         } else{
+             session_start();
+             $_SESSION['error_adduser']="<b style='color:white;'> Something went wrong while adding user!</b>"; 
+         }
+    } 
+
     // geting single user for updation
     public function GetUser($id, $connection)
     {
@@ -331,20 +426,66 @@ class AdminController extends Database
         return $User;
 
     }
+    // get user for  for changing user picture
+    public function getuserImage($id, $connection){
+         //select * from where id  = id
+         $query = "SELECT * FROM users where id ='" . $id . "' ";
+         // mysqli query
+         $result = mysqli_query($connection, $query);
+         //return user;
+         $UserImage = mysqli_fetch_assoc($result);
+         return $UserImage;
+
+    }
+    // update user image 
+    public function updateuserImage($id, $connection){
+        $fileName =$_FILES['update_photo']['name'];
+        $target = "../assets/client/images/";          
+        $fileTarget = $target.$fileName;     
+        $tempFileName = $_FILES["update_photo"]["tmp_name"];
+            
+        $result = move_uploaded_file($tempFileName , $fileTarget);
+        if($result)
+            {
+            $query =" UPDATE users SET photo = '$fileName'   where id='$id' ";
+            $response =mysqli_query($connection, $query);
+            session_start();
+            $_SESSION['success_updateuserimage'] = "<b style='color:white;'> User image is successfully updated!</b>";
+           
+            if(mysqli_error($connection))
+            {
+                die(mysqli_error($connection));
+            } 
+            
+             if($response){
+              
+                 return true;
+             }else{
+                 return false;
+             }
+
+        } else{
+            session_start();
+            $_SESSION['error_updateuserimage']= "<b style='color:white;'>Something went wrong while Updating user image!</b>";
+        }
+
+    }
 
     // update User
     public function updateUser($id, $connection)
     {
-        $email = $_POST['email'];
-        $firstname = $_POST['firstname'];
-        $lastname = $_POST['lastname'];
-        $password = $_POST['password'];
-        $address = $_POST['address'];
-        $contact = $_POST['contactinfo'];
+        $email = $_POST['edit_email'];
+        $firstname = $_POST['edit_firstname'];
+        $lastname = $_POST['edit_lastname'];
+        $password = $_POST['edit_password'];
+        $address = $_POST['edit_address'];
+        $contact = $_POST['edit_contactinfo'];
         $query = " UPDATE Users
          SET  email='$email', firstname ='$firstname', lastname= '$lastname', contact_info='$contact', address= '$address'
          WHERE id='$id' ";
         //  $result = mysqli_query($connection,)
+        session_start();
+        $_SESSION['success_edituser']= "<b style='color:white;'> User is successfully Updated ! </b>";
         $result = mysqli_query($connection, $query);
         if ($result) {
             return true;

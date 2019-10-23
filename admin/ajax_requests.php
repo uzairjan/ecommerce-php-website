@@ -21,15 +21,15 @@ if (isset($_POST['login_user'])) {
     // header("location:admin/index.php");
 }
 
-if (isset($_POST['submit'])) {
+if (isset($_POST['submit2'])) {
 
-    $result = $adminObj->addUser($_POST['submit'], $databaseObj->connection);
+    $result = $adminObj->addUser($_POST['submit2'], $databaseObj->connection);
     if ($result) {
         $msg = " user succesfully added";
     } else {
         $msg = "something went wrong";
     }
-    header("Location:user.php?msg=$msg");
+    header("Location:user.php");
 }
 // fetch user data from database and place it in edit user modal
 if (isset($_POST['user_id'])) {
@@ -47,7 +47,7 @@ if (isset($_POST['id'])) {
         $msg = "something went wrong";
 
     }
-    header("Location:user.php?msg=$msg");
+    header("Location:user.php");
 }
 
 // delete User
@@ -58,7 +58,7 @@ if (isset($_GET['dlt_user'])) {
     } else {
         $msg = " something went wrong";
     }
-    header("Location:user.php?msg=$msg");
+    header("Location:user.php");
 }
 
 // add new category
@@ -69,7 +69,7 @@ if (isset($_POST['submit1'])) {
     } else {
         $msg = "something went wrong";
     }
-    header("location:category.php?msg=$msg");
+    header("location:category.php");
 }
 
 //
@@ -86,7 +86,7 @@ if (isset($_POST['category_id'])) {
     } else {
         $msg = "something went wrong";
     }
-    header("Location:category.php?msg=$msg");
+    header("Location:category.php");
 }
 
 // delete category (remove category name from database)
@@ -110,7 +110,7 @@ if (isset($_POST['add_product'])) {
     } else {
         $msg = "something went Wrong";
     }
-    header("Location:product.php?msg=$msg");
+    header("Location:product.php");
 }
 
 // fetch value of product from the database and put it to update product module
@@ -118,11 +118,43 @@ if (isset($_POST['update_pro'])) {
     echo json_encode($adminObj->getProduct($_POST['update_pro'], $databaseObj->connection));
     # code...
 }
+if(isset($_POST['update_profile'])){
+    echo json_encode($adminObj->getuserProfile($_POST['update_profile'], $databaseObj->connection));
+}
+ if(isset($_POST['userprofile_id'])){
+     $result = $adminObj->updateuserProfile($_POST['userprofile_id'],$databaseObj->connection);
+       header("location:index.php");
+ }
 // getting product description
 if (isset($_POST['pro_descr'])) {
-    echo json_encode($adminObj->getproductDesc($_POST['pro_descr'], $databaseObj->connection));
+     echo json_encode($adminObj->getproductDesc($_POST['pro_descr'], $databaseObj->connection));
+}
+//fetch record of product for update product image modal 
+if(isset($_POST['update_prod_image'])){
+    echo json_encode($adminObj->getproductImage($_POST['update_prod_image'], $databaseObj->connection));
+}
+// push image of product from update product image modal to database and update it with previous data
+if(isset($_POST['product_image_id'])){
+    $result = $adminObj->updateProductImage($_POST['product_image_id'],$databaseObj->connection);
+   
+    header("location:product.php");
+    
+
+} 
+// fetch user image fro update user image modal 
+if(isset($_POST['user_update_image'])){
+    echo json_encode($adminObj->getuserImage($_POST['user_update_image'],$databaseObj->connection));
+
+}
+// update User image
+if(isset($_POST['user_image_id'])){
+    $result = $adminObj->updateuserImage($_POST['user_image_id'], $databaseObj->connection);
+    
+    header("location:user.php");
 }
 
+
+ 
 // push product update form data to database
 if (isset($_POST['product_id'])) {
     $result = $adminObj->updateProduct($_POST['product_id'], $databaseObj->connection);
@@ -132,7 +164,7 @@ if (isset($_POST['product_id'])) {
     } else {
         $msg = "something went wrong";
     }
-    header("location:product.php?msg=$msg");
+    header("location:product.php");
 }
 
 // for delete product
@@ -143,5 +175,5 @@ if (isset($_GET['Prod_id'])) {
     } else {
         $msg = "something went wrong";
     }
-    header("Location:product.php?msg=$msg");
+    header("Location:product.php");
 }

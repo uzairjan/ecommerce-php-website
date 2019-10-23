@@ -17,12 +17,27 @@
                     <li><a href="#">Tables</a></li>
                     <li class="active">Data tables</li>
                 </ol>
-            <?php if(isset($_GET['msg'])){ ?>
-                   <div class="alert alert-success alert-dismissible" role="alert">
-                          <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                            <?php if(isset($_GET['msg'])) {echo $_GET['msg']; } ?>
-                  </div>
-            <?php  } ?>
+                <?php if(isset($_SESSION ['success_addcategory'])){ ?>
+                 <div class="alert alert-success alert-dismissible" role="alert">
+                 <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                 <?php  echo  $_SESSION ['success_addcategory'];
+                        unset( $_SESSION ['success_addcategory']);  ?>
+                 </div>
+              <?php  } ?>
+              <?php if(isset($_SESSION ['success_updatecategory'])){ ?>
+                 <div class="alert alert-success alert-dismissible" role="alert">
+                 <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                 <?php  echo  $_SESSION ['success_updatecategory'];
+                        unset( $_SESSION ['success_updatecategory']);  ?>
+                 </div>
+              <?php  } ?>
+              <?php if(isset($_SESSION ['success_deletecategory'])){ ?>
+                 <div class="alert alert-success alert-dismissible" role="alert">
+                 <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                 <?php  echo  $_SESSION ['success_deletecategory'];
+                        unset( $_SESSION ['success_deletecategory']);  ?>
+                 </div>
+              <?php  } ?>
             </section>
            
             <!-- Main content -->
